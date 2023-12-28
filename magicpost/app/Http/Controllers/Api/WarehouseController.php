@@ -441,6 +441,41 @@ class WarehouseController extends Controller
         ], 200);
     }
 
+    public function getStatistic(Request $request) {
+        $usrctrl = new UserController();
+        $whid = $usrctrl->getUserDetail($request)->departmentid;
+        //$parcelid = intval($request->id);
+        $wh = Warehouse::where('id', $whid)->first();
+        // return response()->json([
+        //     'arr' => $wh
+        // ], 200);
+        $send = $wh->incomingFromOffice;
+        $sendarr = json_decode($send);
+        $countsend = !$sendarr ? 0 : count($sendarr, COUNT_NORMAL);
+        $recv = $wh->outgoingToOffice;
+        $recvarr = json_decode($recv);
+        $countrecv = !$recvarr ? 0 : count($recvarr, COUNT_NORMAL);
+        $ship = $wh->incomingFromOtherWarehouser;
+        $shiparr = json_decode($ship);
+        $countship = !$shiparr? 0 : count($shiparr, COUNT_NORMAL);
+        // $failed = $wh->failed;
+        // $farr = json_decode($failed);
+        // if (!$farr) {
+        //     $countfailed = 0;
+        // } else {
+        //     $countfailed = count($farr, COUNT_NORMAL);
+        // }
+        return response()->json([
+            'id' => $whid,
+            'sendedToNextWarehouse' => $countsend,
+            'sendedToOffice' => $countrecv,
+            'receive from warehouse' => $countship,
+            //'failed' => $countfailed
+
+        ]);
+
+    }
+
     public function find($jsonlist, int $value) {
         $arr = json_decode($jsonlist);
         array_push($arr, 0);

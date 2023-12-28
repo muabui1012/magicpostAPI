@@ -71,7 +71,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('office/outGoingToCustomer', [OfficeController::class, 'getOutGoingToCustomer']);
     Route::get('office/getIncomingFromCustomer', [OfficeController::class, 'getIncomingFromCustomer']);
     Route::get('office/getIncomingFromWarehouse', [OfficeController::class, 'getIncomingFromWarehouse']);
-    
+    Route::get('office/getStatistic', [OfficeController::class, 'getStatistic']);
 
     Route::post('warehouse', [WarehouseController::class, 'store']);
     Route::put('warehouse/{id}/edit', [WarehouseController::class, 'update']);
@@ -82,9 +82,10 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('warehouse/incomingfromoffice', [WarehouseController::class, 'getIncomingFromOffice']);
     Route::get('warehouse/outgoingtoffice', [WarehouseController::class, 'getOutgoingToOffice']);
     Route::get('warehouse/incomingfromotherwarehouse', [WarehouseController::class, 'getIncomingFromOtherWarehouse']);
+    Route::get('warehouse/getStatistic', [WarehouseController::class, 'getStatistic']);
 
-
-
+    Route::get('user/detail', [UserController::class, 'getUserDetail']);
+    Route::get('user/getstafflist', [UserController::class, 'getByRole']);
 });
 
 Route::get('parcel/{id}', [ParcelController::class, 'show']);

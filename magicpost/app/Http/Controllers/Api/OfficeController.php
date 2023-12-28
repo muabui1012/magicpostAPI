@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Office;
 use App\Models\Parcel;
+use Countable;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -429,6 +431,37 @@ class OfficeController extends Controller
         }
     }
 
+    public function getStatistic(Request $request) {
+        $usrctrl = new UserController();
+        $officeID = $usrctrl->getUserDetail($request)->departmentid;
+        //$parcelid = intval($request->id);
+        $of = Office::where('id', $officeID)->first();
+        $send = $of->incomingFromCustomer;
+        $sendarr = json_decode($send);
+        $countsend = !$sendarr ? 0 : count($sendarr, COUNT_NORMAL);
+        $recv = $of->incomingFromWarehouse;
+        $recvarr = json_decode($recv);
+        $countrecv = !$recvarr ? 0 : count($recvarr, COUNT_NORMAL);
+        $ship = $of->outgoingToCustomer;
+        $shiparr = json_decode($recv);
+        $countship = !$shiparr? 0 : count($shiparr, COUNT_NORMAL);
+        $failed = $of->failed;
+        $farr = json_decode($failed);
+        if (!$farr) {
+            $countfailed = 0;
+        } else {
+            $countfailed = count($farr, COUNT_NORMAL);
+        }
+        return response()->json([
+            'id' => $officeID,
+            'sended' => $countsend,
+            'receive' => $countrecv,
+            'ship' => $countship,
+            'failed' => $countfailed
+
+        ]);
+
+    }
     
     
     public function find($jsonlist, int $value) {

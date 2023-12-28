@@ -143,35 +143,48 @@ class WarehouseController extends Controller
         $parcelid = $request->id;
         $usrctrl = new UserController();
         $user = $usrctrl->getUser($request);
-        if ($user->department_type == "office") {
+        if ($user->department_type == "warehouse"|| true) {
             $id = $user->departmentid;
             $wh = Warehouse::where('id', $id)->first();
             if (!$wh) {
                 return response() -> json([
-                    'message' => "Not found your warehouse"
+                    'message' => "Not found your warehouse",
+                    'id' => $id,
+                    'user' => $user,
+                    '$wh' => $wh
                 ]);
             } else {
+                // return response() -> json([
+                //     'id' => $id,
+                //     'user' => $user,
+                //     '$wh' => $wh
+                // ]);
+
                 $list = $wh->outgoingToOffice;
-                $officeID = $wh->officeID;
+                $officeID = $wh->officeid;
                 $cF = new commonFunctions();
                 if (!($cF->findJsonList($list, $parcelid))) {
                     return response() -> json([
                         'message' => "Not found parcel"
                     ], 404);
                 } else {
+                    // return response() -> json([
+                    //     'message' => $wh
+                    // ], 404);
+
                     $ofc = new OfficeController();
                     $status = $ofc -> addToOutgoingToCustomer($officeID, $parcelid);
                     if ($status) {
                         $wh->update([
-                            'outgoingToOffice' => $cF->removeFromJsonList($wh->outgoingToOffice, $parcelid)
+                            //'outgoingToOffice' => $cF->removeFromJsonList($wh->outgoingToOffice, $parcelid)
                         ]);
                         if ($wh) {
                             return response() -> json([
-                                'message' => "sended successfully";
+                                'message' => "sended successfully"
                             ], 200);
                         } else {
                             return response() -> json([
-                                'message' => "send unsuccesfully";
+                                'message' => "send unsuccesfully"
                             ], 500);
                         }
                         // $wh->outgoingToOffice => $cF->removeFromJsonList($wh->outgoingToOffice, $parcelid);

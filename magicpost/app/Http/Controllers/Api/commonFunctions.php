@@ -15,7 +15,7 @@ class commonFunctions extends Controller
 
     public function removeFromJsonList($jsonlist, $value) {
         $arr = json_decode($jsonlist);
-        for ($i = 0; sizeof($arr); $i++) {
+        for ($i = 0; $i < sizeof($arr); $i++) {
             if ($arr[$i] == $value) {
                 unset($arr[$i]);
                 break;
@@ -27,7 +27,7 @@ class commonFunctions extends Controller
 
     public function findJsonList($jsonlist, $value) {
         $arr = json_decode($jsonlist);
-        for ($i = 0; sizeof($arr); $i++) {
+        for ($i = 0; $i < sizeof($arr); $i++) {
             if ($arr[$i] == $value) {
                 return true;
             }

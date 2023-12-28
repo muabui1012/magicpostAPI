@@ -221,8 +221,8 @@ class OfficeController extends Controller
     }
 
     public function addToOutgoingToCustomer(int $officeID, int $parcelid) {
-        $of = Office::find($officeID);
-        $jsonlist = $of->outgoingFromCustomer;
+        $of = Office::where('id', $officeID)->first();
+        $jsonlist = $of->outgoingToCustomer;
         $arr = json_decode($jsonlist);
         array_push($arr, $parcelid);
         $jsonarr = json_encode($arr);
@@ -230,17 +230,17 @@ class OfficeController extends Controller
             'outgoingFromCustomer' => $jsonarr
         ]);
         if ($of) {
-            // return response() -> json([
-            //     'message' => "sended to office succesfully",
-            //     'parcelid' => $parcelid
-            // ]);
-            return true;
+            return response() -> json([
+                'message' => "sended to office succesfully",
+                'parcelid' => $parcelid
+            ]);
+            //return true;
         } else {
-            // return response() -> json([
-            //     'message' => "send to office unsuccesfully",
-            //     'parcelid' => $parcelid
-            // ]);
-            return false;
+            return response() -> json([
+                'message' => "send to office unsuccesfully",
+                'parcelid' => $parcelid
+            ]);
+            //return false;
         }
     }
 

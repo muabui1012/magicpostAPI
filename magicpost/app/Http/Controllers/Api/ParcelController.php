@@ -86,10 +86,12 @@ class ParcelController extends Controller
 
             if ($parcel) {
                 $id = $parcel->id;
+                $usrctrl = new UserController();
+                $sendOfficeID = $usrctrl->getUserOfficeID($request);
                 $code = "MGP_" . $sendOfficeID . "_" . $receiveOfficeID .  "_" . $id;
                 
                 $ofc = new OfficeController();
-                $ofc -> addToIncomingFromCustomer($request->sendOfficeID, $id);
+                $ofc -> addToIncomingFromCustomer($sendOfficeID, $id);
                 $parcel -> update([
                     'code' => $code
                 ]);

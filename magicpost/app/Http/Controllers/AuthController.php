@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -89,10 +90,13 @@ class AuthController extends Controller
      */
 
     public function register(Request $request) {
+        //$department_type = $request->department_type;
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed|min:6',
+            // 'department_type' => 'requrire|string',
+            // 'department_id' => 'requrire|integer'
 
         ]);
         if ($validator->fails()) {
@@ -104,10 +108,22 @@ class AuthController extends Controller
                 $validator->validated(), 
                 ['password'=>bcrypt($request->password)] 
             ));
+            $userid = $user->id;
+            $userDetail = UserDetail::create([
+                'id' => $userid,
+                'userid' => $userid,
+                'roleid' => $request->roleid,
+                'department_type' => $request->department_type,
+                'departmentid' => $request->departmentid
+            ]);
+            
         }
         return response()->json([
             'message' => "user succesfully registered", 
-            'user' => $user
+            'user' => $user,
+            'userdetail' => $userDetail,
+            'roleid' => $request->roleid,
+            
         ], 201);
     }
 

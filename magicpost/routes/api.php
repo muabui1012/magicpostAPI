@@ -84,6 +84,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('warehouse/incomingfromotherwarehouse', [WarehouseController::class, 'getIncomingFromOtherWarehouse']);
     Route::get('warehouse/getStatistic', [WarehouseController::class, 'getStatistic']);
 
+
+    Route::get('topmanager/getStatistic', [UserController::class, 'getFullStatistic']);
     Route::get('user/detail', [UserController::class, 'getUserDetail']);
     Route::get('user/getstafflist', [UserController::class, 'getByRole']);
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\User;
+use App\Models\Parcel;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -90,6 +91,25 @@ class UserController extends Controller
         ]);
     }
 
+    public function getFullStatistic(Request $request) {
+        //$parcellist = Parcel::all();
+        $recieved = 0;
+        $sended = 0;
+        $success = Parcel::where('status', "OK")->count();
+        $failedparcel = Parcel::where('status', "Hoàn lại kho")->count();
+        // $fail = 0;
+        // if  (!is_countable($failedparcel)) {
+        //     $fail = 0;
+        // }else {
+        //     $fail = count($failedparcel, COUNT_NORMAL);
+        // }
+
+        return response()->json([
+            'success' => $success,
+            'fail' => $failedparcel
+        ]);
+
+    }
 
 
 }

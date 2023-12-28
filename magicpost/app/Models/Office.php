@@ -20,7 +20,8 @@ class Office extends Model
         'incomingFromCustomer',
         'incomingFromWarehouse',
         'outgoingToWarehouse',
-        'outgoingToCustomer'
+        'outgoingToCustomer',
+        'failed',
     ];
 
 }

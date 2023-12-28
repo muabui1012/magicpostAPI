@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('incomingFromWarehouse')->nullable()->default("[]");
             $table->string('outgoingToWarehouse')->nullable()->default("[]");
             $table->string('outgoingToCustomer')->nullable()->default("[]");
+            $table->string('failed')->nullable()->default("[]");
             $table->timestamps();
         });
     }

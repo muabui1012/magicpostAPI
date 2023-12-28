@@ -65,11 +65,25 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::put('office/delete', [OfficeController::class, 'destroy']);
     Route::get('office/incomingFromCustomer', [OfficeController::class, 'getIncomingFromCustomer']);
     Route::post('office/sendtowarehouse', [OfficeController::class, 'sendToWarehouse']);
+    Route::post('office/sendtocustomer', [OfficeController::class, 'sendToCustomer']);
+    Route::post('office/shipconfirm', [OfficeController::class, 'shipConfirm']);
+    Route::get('office/outGoingToCustomer', [OfficeController::class, 'getOutGoingToCustomer']);
+    Route::get('office/getIncomingFromCustomer', [OfficeController::class, 'getIncomingFromCustomer']);
+    Route::get('office/getIncomingFromWarehouse', [OfficeController::class, 'getIncomingFromWarehouse']);
+    
 
     Route::post('warehouse', [WarehouseController::class, 'store']);
     Route::put('warehouse/{id}/edit', [WarehouseController::class, 'update']);
     Route::put('warehouse/delete', [WarehouseController::class, 'destroy']);
     Route::post('warehouse/sendtooffice', [WarehouseController::class, 'sendToOffice']);
+    Route::post('warehouse/sendtootherwarehouse', [WarehouseController::class, 'sendToOtherWarehouse']);
+    Route::post('warehouse/preparetooffice', [WarehouseController::class, 'prepareToOffice']);
+    Route::get('warehouse/incomingfromoffice', [WarehouseController::class, 'getIncomingFromOffice']);
+    Route::get('warehouse/outgoingtoffice', [WarehouseController::class, 'getOutgoingToOffice']);
+    Route::get('warehouse/incomingfromotherwarehouse', [WarehouseController::class, 'getIncomingFromOtherWarehouse']);
+
+
+
 });
 
 Route::get('parcel/{id}', [ParcelController::class, 'show']);

@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string("name")->nullable();
             $table->integer('managerid')->nullable()->default(0);
-            $table->string('staffList')->nullable()->default("");
-            $table->integer('officeid')->nullable()->default("");
+            $table->string('staffList')->nullable()->default("[]");
+            $table->integer('officeid')->nullable()->default(0);
             //$table->string('parceList')->nullable();
-            $table->string('incomingFromOffice')->nullable()->default("");
-            $table->string('incomingFromOtherWarehouse')->nullable()->default("");
-            $table->string('outgoingToIOtherWarehouse')->nullable()->default("");
-            $table->string('outgoingToCustomer')->nullable()->default("");
+            $table->string('incomingFromOffice')->nullable()->default("[]");
+            $table->string('incomingFromOtherWarehouse')->nullable()->default("[]");
+            $table->string('outgoingToIOtherWarehouse')->nullable()->default("[]");
+            $table->string('outgoingToOffice')->nullable()->default("[]");
             $table->timestamps();
         });
     }

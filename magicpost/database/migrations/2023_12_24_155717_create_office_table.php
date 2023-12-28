@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('office', function (Blueprint $table) {
             $table->id();
             $table->string("name")->nullable()->default("");
-            $table->integer('managerid')->nullable()->default("0");
-            $table->string('staffList')->nullable()->default("");
-            $table->string('incomingFromCustomer')->nullable()->default("");
-            $table->string('incomingFromWarehouse')->nullable()->default("");
-            $table->string('outgoingToWarehouse')->nullable()->default("");
-            $table->string('outgoingToCustomer')->nullable()->default("");
+            $table->integer('managerid')->nullable()->default(0);
+            $table->string('staffList')->nullable()->default("[]");
+            $table->string('incomingFromCustomer')->nullable()->default("[]");
+            $table->string('incomingFromWarehouse')->nullable()->default("[]");
+            $table->string('outgoingToWarehouse')->nullable()->default("[]");
+            $table->string('outgoingToCustomer')->nullable()->default("[]");
             $table->timestamps();
         });
     }

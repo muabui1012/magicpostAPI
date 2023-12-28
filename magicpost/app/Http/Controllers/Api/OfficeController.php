@@ -150,11 +150,16 @@ class OfficeController extends Controller
         ]);
     }
 
-    public function removeToIncomingFromCustomer(int $officeID, int $parcelid) {
+    public function removeIncomingFromCustomer(int $officeID, int $parcelid) {
         $of = Office::find($officeID);
         $jsonlist = $of->incomingFromCustomer;
         $arr = json_decode($jsonlist);
-        unset($arr[$parcelid]);
+        for ($i = 0; sizeof($arr); $i++) {
+            if ($arr[$i] == $parcelid) {
+                unset($arr[$i]);
+                break;
+            }
+        }
         $jsonarr = json_encode($arr);
         $of->update([
             'incomingFromCustomer' => $jsonarr
@@ -188,7 +193,7 @@ class OfficeController extends Controller
         ]);
     }
 
-    public function removeToIncomingWarehouse(int $officeID, int $parcelid) {
+    public function removeIncomingWarehouse(int $officeID, int $parcelid) {
         $of = Office::find($officeID);
         $jsonlist = $of->incomingFromWarehouse;
         $arr = json_decode($jsonlist);
@@ -215,7 +220,7 @@ class OfficeController extends Controller
         ], 200);
     }
 
-    public function addToOutgoingFromCustomer(int $officeID, int $parcelid) {
+    public function addToOutgoingToCustomer(int $officeID, int $parcelid) {
         $of = Office::find($officeID);
         $jsonlist = $of->outgoingFromCustomer;
         $arr = json_decode($jsonlist);
@@ -224,6 +229,19 @@ class OfficeController extends Controller
         $of->update([
             'outgoingFromCustomer' => $jsonarr
         ]);
+        if ($of) {
+            // return response() -> json([
+            //     'message' => "sended to office succesfully",
+            //     'parcelid' => $parcelid
+            // ]);
+            return true;
+        } else {
+            // return response() -> json([
+            //     'message' => "send to office unsuccesfully",
+            //     'parcelid' => $parcelid
+            // ]);
+            return false;
+        }
     }
 
     public function removeOutgoingFromCustomer(int $officeID, int $parcelid) {
@@ -276,15 +294,29 @@ class OfficeController extends Controller
     }
 
     public function sendToWarehouse(Request $request) {
-        $officeID = $request->officeID;
+        //$officeID = $request->officeID;
+        $usrctrl = new UserController();
+        $officeID = $usrctrl->getUser($request)->departmentid;
         $parcelid = $request->parcelid;
+        //$parcel:
+        $this->removeIncomingFromCustomer($officeID, $parcelid);
         $whctrl = new WarehouseController();
-        $whctrl->addIncomingFromOffice($officeID, $parcelid);
-
+        $status = $whctrl->addIncomingFromOffice($officeID, $parcelid);
+        if ($status) {
+            return response() -> json([
+                'status' => 200,
+                'message' => "send successfully"
+            ]);
+        } else {
+            return response() -> json([
+                'status' => 400,
+                'message' => "send unsuccessfully"
+            ]);
+        }
     }
 
-
     
+
 
    
 

@@ -72,7 +72,7 @@ class WarehouseController extends Controller
         }
         return response()->json([
             'message' => "created successfully", 
-            'office' => $wh
+            'warehouse' => $wh
         ], 201);
         
     }
@@ -123,15 +123,66 @@ class WarehouseController extends Controller
         }
     }
 
-    public function addIncomingFromOffice($officeID, $parcelID) {
+    public function addIncomingFromOffice($officeID,int $parcelID) {
         //$parcel = Parcel::where('id', $parcelID);
-        $this_wh = Warehouse::where('officeID', $officeID);
-        $jsonlist = $this_wh->incomingFromWarehouse;
+        $this_wh = Warehouse::where('officeID', $officeID)->first();
+        $jsonlist = $this_wh->incomingFromOffice;
         $arr = json_decode($jsonlist);
         array_push($arr, $parcelID);
         $jsonarr = json_encode($arr);
         $this_wh->update([
             'incomingFromOffice' => $jsonarr
         ]);
+        if ($this_wh) {
+            return true;
+        }
+        return false;
+    }
+
+    public function sendToOffice(Request $request) {
+        $parcelid = $request->id;
+        $usrctrl = new UserController();
+        $user = $usrctrl->getUser($request);
+        if ($user->department_type == "office") {
+            $id = $user->departmentid;
+            $wh = Warehouse::where('id', $id)->first();
+            if (!$wh) {
+                return response() -> json([
+                    'message' => "Not found your warehouse"
+                ]);
+            } else {
+                $list = $wh->outgoingToOffice;
+                $officeID = $wh->officeID;
+                $cF = new commonFunctions();
+                if (!($cF->findJsonList($list, $parcelid))) {
+                    return response() -> json([
+                        'message' => "Not found parcel"
+                    ], 404);
+                } else {
+                    $ofc = new OfficeController();
+                    $status = $ofc -> addToOutgoingToCustomer($officeID, $parcelid);
+                    if ($status) {
+                        $wh->update([
+                            'outgoingToOffice' => $cF->removeFromJsonList($wh->outgoingToOffice, $parcelid)
+                        ]);
+                        if ($wh) {
+                            return response() -> json([
+                                'message' => "sended successfully";
+                            ], 200);
+                        } else {
+                            return response() -> json([
+                                'message' => "send unsuccesfully";
+                            ], 500);
+                        }
+                        // $wh->outgoingToOffice => $cF->removeFromJsonList($wh->outgoingToOffice, $parcelid);
+                        // return response() -> json([
+                        //     'message' => "Not found your warehouse"
+                        // ]);
+                    }
+                }
+            }
+
+        }
+
     }
 }

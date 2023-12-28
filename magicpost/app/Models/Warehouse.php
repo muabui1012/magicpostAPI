@@ -9,7 +9,7 @@ use App\Models\Parcel;
 class Warehouse extends Model
 {
     use HasFactory;
-    protected $table = 'office';
+    protected $table = 'warehouse';
     protected $fillable=[
         'managerid',
         'name',
@@ -19,6 +19,6 @@ class Warehouse extends Model
         'incomingFromOffice',
         'incomingFromOtherWarehouse',
         'outgoingToOtherWarehouse',
-        'outgoingToCustomer'
+        'outgoingToOffice'
     ];
 }

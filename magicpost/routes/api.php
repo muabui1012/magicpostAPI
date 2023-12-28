@@ -69,6 +69,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('warehouse', [WarehouseController::class, 'store']);
     Route::put('warehouse/{id}/edit', [WarehouseController::class, 'update']);
     Route::put('warehouse/delete', [WarehouseController::class, 'destroy']);
+    Route::post('warehouse/sendtoffice', [WarehouseController::class, 'sendToOffice']);
 });
 
 Route::get('parcel/{id}', [ParcelController::class, 'show']);

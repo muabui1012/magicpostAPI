@@ -10,7 +10,7 @@ class commonFunctions extends Controller
     public function appendToJsonList($jsonlist, $value) {
         $arr = json_decode($jsonlist);
         array_push($arr, $value);
-        return json_encode($arr);
+        return json_encode(array_values($arr));
     }
 
     public function removeFromJsonList($jsonlist, $value) {
@@ -21,17 +21,19 @@ class commonFunctions extends Controller
                 break;
             }
         }
-        $jsonarr = json_encode($arr);
+        $jsonarr = json_encode(array_values($arr));
         return $jsonarr;
     }
 
     public function findJsonList($jsonlist, $value) {
         $arr = json_decode($jsonlist);
-        for ($i = 0; $i < sizeof($arr); $i++) {
-            if ($arr[$i] == $value) {
+        $key = array_search($value, $arr);
+            if ($key) {
                 return true;
+            } else {
+                return false;
             }
-        }
-        return false;
+        
+        
     }
 }

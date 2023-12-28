@@ -30,10 +30,19 @@ class UserController extends Controller
         return $user;
     }
 
+    public function getUserDetail(Request $request) {
+        $user = auth()->user();
+        $user_id = $user->id;
+        $detail = UserDetail::where('userid', $user_id)->first();
+        
+        return $detail;
+    }
+
     public function getUserOfficeID(Request $request) {
         $user = auth()->user();
         $user_id = $user->id;
         $detail = UserDetail::where('userid', $user_id)->first();
+        
         return $detail->departmentid;
     }
 

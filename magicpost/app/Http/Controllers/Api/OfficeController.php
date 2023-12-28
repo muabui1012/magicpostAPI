@@ -154,13 +154,17 @@ class OfficeController extends Controller
         $of = Office::find($officeID);
         $jsonlist = $of->incomingFromCustomer;
         $arr = json_decode($jsonlist);
-        for ($i = 0; sizeof($arr); $i++) {
-            if ($arr[$i] == $parcelid) {
-                unset($arr[$i]);
-                break;
-            }
+        // for ($i = 0; $i < sizeof($arr); $i++) {
+        //     if ($arr[$i] == $parcelid) {
+        //         unset($arr[$i]);
+        //         break;
+        //     }
+        // }
+        // 
+        foreach (array_keys($arr, $parcelid) as $key) {
+            unset($arr[$key]);
         }
-        $jsonarr = json_encode($arr);
+        $jsonarr = json_encode(array_values($arr));
         $of->update([
             'incomingFromCustomer' => $jsonarr
         ]);
@@ -221,7 +225,7 @@ class OfficeController extends Controller
     }
 
     public function addToOutgoingToCustomer(int $officeID, int $parcelid) {
-        $of = Office::where('id', $officeID)->first();
+        $of = Office::find($officeID)->first;
         $jsonlist = $of->outgoingToCustomer;
         $arr = json_decode($jsonlist);
         array_push($arr, $parcelid);
@@ -296,7 +300,7 @@ class OfficeController extends Controller
     public function sendToWarehouse(Request $request) {
         //$officeID = $request->officeID;
         $usrctrl = new UserController();
-        $officeID = $usrctrl->getUser($request)->departmentid;
+        $officeID = $usrctrl->getUserOfficeID($request);
         $parcelid = $request->parcelid;
         //$parcel:
         $this->removeIncomingFromCustomer($officeID, $parcelid);

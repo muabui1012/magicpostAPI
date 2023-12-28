@@ -125,7 +125,10 @@ class WarehouseController extends Controller
 
     public function addIncomingFromOffice($officeID,int $parcelID) {
         //$parcel = Parcel::where('id', $parcelID);
-        $this_wh = Warehouse::where('officeID', $officeID)->first();
+        $this_wh = Warehouse::where('officeid', $officeID)->first();
+        // return response()->json([
+        //     'message' => $this_wh
+        // ]);
         $jsonlist = $this_wh->incomingFromOffice;
         $arr = json_decode($jsonlist);
         array_push($arr, $parcelID);
@@ -143,8 +146,9 @@ class WarehouseController extends Controller
         $parcelid = $request->id;
         $usrctrl = new UserController();
         $user = $usrctrl->getUser($request);
-        if ($user->department_type == "warehouse"|| true) {
-            $id = $user->departmentid;
+        $userdetail = $usrctrl->getUserDetail($request);
+        if ($userdetail->department_type == "warehouse"|| true) {
+            $id = $userdetail->departmentid;
             $wh = Warehouse::where('id', $id)->first();
             if (!$wh) {
                 return response() -> json([
@@ -163,7 +167,7 @@ class WarehouseController extends Controller
                 $list = $wh->outgoingToOffice;
                 $officeID = $wh->officeid;
                 $cF = new commonFunctions();
-                if (!($cF->findJsonList($list, $parcelid))) {
+                if (!($cF->findJsonList($list, $parcelid)) && false) {
                     return response() -> json([
                         'message' => "Not found parcel"
                     ], 404);

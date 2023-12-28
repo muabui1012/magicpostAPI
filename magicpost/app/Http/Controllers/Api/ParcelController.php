@@ -86,10 +86,13 @@ class ParcelController extends Controller
 
             if ($parcel) {
                 $id = $parcel->id;
+                $usrctrl = new UserController();
+                $sendOfficeID = $usrctrl->getUserOfficeID($request);
                 $code = "MGP_" . $sendOfficeID . "_" . $receiveOfficeID .  "_" . $id;
-                
+                $msg = "Đã tiếp nhận, tại văn phòng" . $sendOfficeID;
+                $this->addTrace($id, $msg);
                 $ofc = new OfficeController();
-                $ofc -> addToIncomingFromCustomer($request->sendOfficeID, $id);
+                $ofc -> addToIncomingFromCustomer($sendOfficeID, $id);
                 $parcel -> update([
                     'code' => $code
                 ]);
@@ -226,5 +229,26 @@ class ParcelController extends Controller
             ], 404);
         }
     }
+
+    public function addTrace(int $parcelid, $value) {
+        //$parcelid = $request -> id;
+        $trace = $value;
+        $parcel = Parcel::where('id', $parcelid)->first();
+        if ($parcel) {
+            $this_trace = $parcel->trace;
+            $this_trace = $this_trace ." - ". $trace;
+            $parcel->update([
+                'trace' => $this_trace
+            ]);
+        } else {
+            return response() -> json([
+                "message" => "Not found parcel",
+                "status" => 404
+            ]);
+        }
+
+    }
+
+
 
 }

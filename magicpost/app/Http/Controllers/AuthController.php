@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\api\UserController;
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
@@ -94,7 +95,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed|min:6',
+            'password' => 'required|string|min:6',
             // 'department_type' => 'requrire|string',
             // 'department_id' => 'requrire|integer'
 
@@ -115,6 +116,56 @@ class AuthController extends Controller
                 'roleid' => $request->roleid,
                 'department_type' => $request->department_type,
                 'departmentid' => $request->departmentid
+            ]);
+            
+        }
+        return response()->json([
+            'message' => "user succesfully registered", 
+            'user' => $user,
+            'userdetail' => $userDetail,
+            'roleid' => $request->roleid,
+            
+        ], 201);
+    }
+
+
+    public function middleRegister(Request $request) {
+        $userctrl = new UserController();
+        $userDetail = $userctrl->getUserDetail($request);
+        // $role = $userDetail->roleid;
+        // if ($role != 2) {
+        //     return response()->json([
+        //         'message' => "invalid permission"
+                
+        //     ], 200);
+        // }
+        $dep_type = $userDetail->department_type;
+        $dep_id = $userDetail->departmentid;
+        //$department_type = $request->department_type;
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:6',
+            // 'department_type' => 'requrire|string',
+            // 'departmentid' => 'requrire|integer'
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 400);
+        } else {
+            $user = User::create(array_merge(
+                $validator->validated(), 
+                ['password'=>bcrypt($request->password)] 
+            ));
+            $userid = $user->id;
+            $userDetail = UserDetail::create([
+                'id' => $userid,
+                'userid' => $userid,
+                'roleid' => 3,
+                'department_type' => $dep_type,
+                'departmentid' => $dep_id
             ]);
             
         }

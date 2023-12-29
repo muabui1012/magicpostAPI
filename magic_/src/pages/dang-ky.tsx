@@ -25,6 +25,21 @@ const ContactPageStyled = styled.div`
   }
 `;
 
+function handleSubmit(event) {
+  event.preventDefault();
+
+  const data = new FormData(event.target);
+
+  const value = Object.fromEntries(data.entries());
+  
+  alert(JSON.stringify(value));
+
+
+}
+
+const form = document.querySelector("form");
+form.addEventListener("submit", handleSubmit);
+
 const ContactPage = () => {
   return (
     <MasterLayout activeButton="" className="background-login">
@@ -49,8 +64,8 @@ const ContactPage = () => {
                 <div className="mb-3">
                   <select className="form-select" aria-label="Default select example">
                     <option selected>Chức vụ</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
+                    <option value="1">Giam doc</option>
+                    <option value="2">Nhan vien</option>
                     <option value="3">Three</option>
                   </select>
                 </div>
@@ -61,15 +76,38 @@ const ContactPage = () => {
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                   </select>
+                </div> 
+                <div className="mb-3">
+                  <input
+                    type="name"
+                    className="form-control"
+                    placeholder="Nhập tên"
+                    name="name"
+                  />
                 </div>
                 <div className="mb-3">
-                  <input type="email" className="form-control" placeholder="Nhập email" />
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Nhập email"
+                    name="email"
+                  />
                 </div>
                 <div className="mb-3">
-                  <input type="password" className="form-control" placeholder="Nhập mật khẩu" />
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Nhập mật khẩu"
+                    name="password"
+                  />
                 </div>
                 <div className="mb-3">
-                  <input type="password" className="form-control" placeholder="Nhập lại mật khẩu" />
+                  <input
+                    type="password"
+                    className="form-control"
+                    name="repassword"
+                    placeholder="Nhập lại mật khẩu"
+                  />
                 </div>
                 <div className="mb-4">
                   <div className="form-check">

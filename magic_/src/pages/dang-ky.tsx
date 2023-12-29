@@ -28,12 +28,17 @@ const ContactPageStyled = styled.div`
 function handleSubmit(event) {
   event.preventDefault();
 
+  
   const data = new FormData(event.target);
 
   const value = Object.fromEntries(data.entries());
   
-  alert(JSON.stringify(value));
-
+  var user_info = JSON.stringify(value);
+  
+  var request= new XMLHttpRequest();
+  request.open("POST", "JSON_Handler.php", true);
+  request.setRequestHeader("Content-type", "application/json");
+  request.send(user_info); 
 
 }
 
@@ -66,7 +71,6 @@ const ContactPage = () => {
                     <option selected>Chức vụ</option>
                     <option value="1">Giam doc</option>
                     <option value="2">Nhan vien</option>
-                    <option value="3">Three</option>
                   </select>
                 </div>
                 <div className="mb-3">

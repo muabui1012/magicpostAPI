@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import { useState } from "react";
 import { MasterLayout } from "../components/templates/MasterLayout";
 
-const ContactPageStyled = styled.div`
+const ResultSearchPageStyled = styled.div`
   padding: 30px 0;
   .buttonList .btn {
     font-size: 1.5rem;
@@ -25,11 +25,11 @@ const ContactPageStyled = styled.div`
   }
 `;
 
-const ContactPage = () => {
+const ResultSearchPage = () => {
   const [buttonChosen, setButtonChosen] = useState<string>("tcvd");
   return (
     <MasterLayout activeButton="tracuu">
-      <ContactPageStyled>
+      <ResultSearchPageStyled>
         <div className="container">
           <div className="buttonList btn-group d-flex">
             <button
@@ -72,27 +72,96 @@ const ContactPage = () => {
                   Tra cứu
                 </button>
               </div>
-
               <div className="bg-white mt-4 rounded p-3">
-                <div>
-                  Mã vận đơn: <strong>{"908xxxeqw"}</strong>
-                </div>
-                <ul className="mb-0">
+                <ol type="I">
                   <li>
-                    Ngày tạo đơn hàng: <b>{"20/02/2020"}</b>
+                    <h6 className="fw-bold">Thông tin đơn hàng</h6>
+
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-6">
+                          <ul className="mb-0">
+                            <li>
+                              Mã đơn hàng: <b>1234567</b>
+                            </li>
+                            <li>
+                              Loại hàng: <b>Tài liệu</b>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="col-6">
+                          <ul className="mb-0">
+                            <li>
+                              Chi phí: <b>500k</b>
+                            </li>
+                            <li>
+                              Khối lượng: <b>5g</b>
+                            </li>
+                            <li>
+                              Ngày tạo: <b>{"22/12/2022"}</b>
+                            </li>
+                            <li>
+                              Ngày giao/Dự kiến/Ngày hủy: <b>{"Chưa có thông tin"}</b>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </li>
+
                   <li>
-                    Ngày giao hàng dự kiến: <b>{"20/02/2020"}</b>
+                    <h6 className="fw-bold">Thông tin người gửi</h6>
+
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-6">
+                          <ul className="mb-0">
+                            <li>
+                              Họ và tên: <b>Nguyễn Văn A</b>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="col-6">
+                          <ul className="mb-0">
+                            <li>
+                              SĐT: <b>0999978622</b>
+                            </li>
+                            <li>
+                              Địa chỉ: <b>P. Dịch Vọng Hậu - Q. Cầu Giấy - TP. Hà Nội</b>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </li>
+
                   <li>
-                    Trạng thái:{" "}
-                    <NextLink href={"/ket-qua-tra-cuu"}>
-                      <span className="text-danger btn">{"Đang vận chuyển"}</span>
-                    </NextLink>
-                    <br />
-                    <i>31/07/2023 22:15:12: Nhận tại TTKT CN Đắc Lắc - TP.Buôn Ma Thuột - Daklak</i>
+                    <h6 className="fw-bold">Thông tin người nhận</h6>
+
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-6">
+                          <ul className="mb-0">
+                            <li>
+                              Họ và tên: <b>Nguyễn Văn B</b>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="col-6">
+                          <ul className="mb-0">
+                            <li>
+                              SĐT: <b>0918273654</b>
+                            </li>
+                            <li>
+                              Địa chỉ: <b>P. Mai Dịch - Q. Cầu Giấy - TP. Hà Nội</b>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </li>
-                </ul>
+                </ol>
               </div>
             </div>
           )}
@@ -189,8 +258,8 @@ const ContactPage = () => {
             </div>
           )}
         </div>
-      </ContactPageStyled>
+      </ResultSearchPageStyled>
     </MasterLayout>
   );
 };
-export default ContactPage;
+export default ResultSearchPage;

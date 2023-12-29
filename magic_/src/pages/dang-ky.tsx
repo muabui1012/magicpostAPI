@@ -27,16 +27,17 @@ const ContactPageStyled = styled.div`
 
 const ContactPage = () => {
   return (
-    <MasterLayout activeButton="">
+    <MasterLayout activeButton="" className="background-login">
       <ContactPageStyled>
         <div className="container">
           <div className="loginForm">
             <div className="d-flex">
               <Image
-                src="/images/empty-image.png"
+                src="/images/v1/logo-white.png"
+                className="object-fit--cover"
                 alt=""
-                width={70}
-                height={70}
+                width={"100%"}
+                height={"100%"}
               />
               <div className="ms-3">
                 <h2 className="mb-0 fw-bold">Magic Post</h2>
@@ -46,10 +47,7 @@ const ContactPage = () => {
             <form className="mt-4 px-4">
               <div className="position-relative">
                 <div className="mb-3">
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                  >
+                  <select className="form-select" aria-label="Default select example">
                     <option selected>Chức vụ</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -57,10 +55,7 @@ const ContactPage = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                  >
+                  <select className="form-select" aria-label="Default select example">
                     <option selected>Điểm giao dịch</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -68,25 +63,13 @@ const ContactPage = () => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Nhập email"
-                  />
+                  <input type="email" className="form-control" placeholder="Nhập email" />
                 </div>
                 <div className="mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Nhập mật khẩu"
-                  />
+                  <input type="password" className="form-control" placeholder="Nhập mật khẩu" />
                 </div>
                 <div className="mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Nhập lại mật khẩu"
-                  />
+                  <input type="password" className="form-control" placeholder="Nhập lại mật khẩu" />
                 </div>
                 <div className="mb-4">
                   <div className="form-check">

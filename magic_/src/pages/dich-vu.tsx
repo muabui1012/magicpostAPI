@@ -29,7 +29,7 @@ const ContactPage = () => {
                     <div className="me-3">
                       <Image
                         className="navbar_logo"
-                        src="/images/empty-image.png"
+                        src="/images/v1/fast.png"
                         alt=""
                         width={50}
                         height={50}
@@ -39,9 +39,9 @@ const ContactPage = () => {
                   </div>
                   <p>
                     <i>
-                      Dịch vụ nhận gửi, vận chuyển và phát các loại thư, tài
-                      liệu, thư từ trong nước theo chỉ tiêu thời gian tiêu
-                      chuẩn, Không áp dụng với các đơn hàng có thu hộ COD [..]
+                      Dịch vụ nhận gửi, vận chuyển và phát các loại thư, tài liệu, thư từ trong nước
+                      theo chỉ tiêu thời gian tiêu chuẩn, Không áp dụng với các đơn hàng có thu hộ
+                      COD [..]
                     </i>
                   </p>
                 </div>
@@ -52,7 +52,7 @@ const ContactPage = () => {
                     <div className="me-3">
                       <Image
                         className="navbar_logo"
-                        src="/images/empty-image.png"
+                        src="/images/v1/fast.png"
                         alt=""
                         width={50}
                         height={50}
@@ -62,9 +62,8 @@ const ContactPage = () => {
                   </div>
                   <p>
                     <i>
-                      Dịch vụ nhận gửi, vận chuyển và phát nhanh chứng từ hàng
-                      hóa, vật phẩm có độ ưu tiên cao nhất với chỉ tiêu thời
-                      gian toàn trình không quá 24 giờ [...]
+                      Dịch vụ nhận gửi, vận chuyển và phát nhanh chứng từ hàng hóa, vật phẩm có độ
+                      ưu tiên cao nhất với chỉ tiêu thời gian toàn trình không quá 24 giờ [...]
                     </i>
                   </p>
                 </div>
@@ -75,7 +74,7 @@ const ContactPage = () => {
                     <div className="me-3">
                       <Image
                         className="navbar_logo"
-                        src="/images/empty-image.png"
+                        src="/images/v1/fast.png"
                         alt=""
                         width={50}
                         height={50}
@@ -85,9 +84,8 @@ const ContactPage = () => {
                   </div>
                   <p>
                     <i>
-                      Dịch vụ nhận gửi, vận chuyển và phát các loại hàng hóa,
-                      bưu kiện không giới hạn mức trọng lượng, theo chỉ tiêu
-                      thời gian tiêu chuẩn, giá cước hợp lý [...]
+                      Dịch vụ nhận gửi, vận chuyển và phát các loại hàng hóa, bưu kiện không giới
+                      hạn mức trọng lượng, theo chỉ tiêu thời gian tiêu chuẩn, giá cước hợp lý [...]
                     </i>
                   </p>
                 </div>
@@ -98,7 +96,7 @@ const ContactPage = () => {
                     <div className="me-3">
                       <Image
                         className="navbar_logo"
-                        src="/images/empty-image.png"
+                        src="/images/v1/fast.png"
                         alt=""
                         width={50}
                         height={50}
@@ -108,9 +106,8 @@ const ContactPage = () => {
                   </div>
                   <p>
                     <i>
-                      Dịch vụ nhận gửi, vận chuyển và phát các loại hàng hóa đặc
-                      biệt, quá trình tiếp nhận, đóng gói, quy định về tem nhãn
-                      cảnh báo riêng cho từng loại [...]
+                      Dịch vụ nhận gửi, vận chuyển và phát các loại hàng hóa đặc biệt, quá trình
+                      tiếp nhận, đóng gói, quy định về tem nhãn cảnh báo riêng cho từng loại [...]
                     </i>
                   </p>
                 </div>

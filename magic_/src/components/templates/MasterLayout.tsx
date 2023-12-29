@@ -1,12 +1,10 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from "react";
 
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
-import LayoutFooter from './LayoutFooter';
+import LayoutHeader, { LayoutHeaderProps } from "./LayoutHeader";
 
-import LayoutHeader, { LayoutHeaderProps } from './LayoutHeader';
-
-import { MetaTag } from './MetaTag';
+import { MetaTag } from "./MetaTag";
 
 const MasterLayoutStyled = styled.div`
   display: flex;
@@ -15,21 +13,20 @@ const MasterLayoutStyled = styled.div`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface MasterLayoutProps extends LayoutHeaderProps{
-
+interface MasterLayoutProps extends LayoutHeaderProps {
+  className?: string;
 }
 
-export const MasterLayout = ({ 
-  activeButton='trangchu',
-  children 
+export const MasterLayout = ({
+  activeButton = "trangchu",
+  children,
+  className,
 }: PropsWithChildren<MasterLayoutProps>) => (
   <React.Fragment>
     <MetaTag />
-    <MasterLayoutStyled >
+    <MasterLayoutStyled>
       <LayoutHeader activeButton={activeButton} />
-      <main>
-        {children}
-      </main>
+      <main className={className}>{children}</main>
       {/* <LayoutFooter /> */}
     </MasterLayoutStyled>
   </React.Fragment>

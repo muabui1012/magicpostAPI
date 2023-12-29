@@ -34,3 +34,22 @@ a {
     color: #BF4434
   }
 }
+
+.navbar-logo--header {
+  object-fit: cover;
+}
+
+.object-fit--cover {
+  object-fit: cover; 
+}
+
+.icon-white {
+  filter: invert(1);
+}
+
+.background-login {
+  background-image: url("/images/v1/bg-login.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}

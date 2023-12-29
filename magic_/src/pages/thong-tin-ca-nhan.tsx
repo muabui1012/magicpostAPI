@@ -21,7 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const ProfilePageStyled = styled.div`
   background: white;
@@ -166,11 +166,11 @@ const ProfilePage = () => {
       isShow: true,
     },
     {
-      name: "Hàng hóa",
+      name: "Tình trạng",
       isShow: true,
     },
     {
-      name: "Tình trạng",
+      name: "All/dtk/dgd",
       isShow: true,
     },
   ]);
@@ -191,20 +191,75 @@ const ProfilePage = () => {
       name: "Người nhận",
       isShow: false,
     },
-    {
-      name: "Hàng hóa",
-      isShow: false,
-    },
+
     {
       name: "Tình trạng",
       isShow: false,
     },
+    {
+      name: "All/dtk/dgd",
+      isShow: false,
+    },
   ]);
+
+  const [tableSearchColumnsWithOrder, setTableSearchColumnsWithOrder] = useState([
+    {
+      name: "Mã đơn",
+      isShow: true,
+    },
+    {
+      name: "Người nhận",
+      isShow: true,
+    },
+    {
+      name: "Kho xuất",
+      isShow: true,
+    },
+    {
+      name: "Điểm giao dịch",
+      isShow: true,
+    },
+    {
+      name: "Trạng thái",
+      isShow: true,
+    },
+    {
+      name: "Thao tác",
+      isShow: true,
+    },
+  ]);
+
+  const [tableSearchColumnsWithOrderDestination, setTableSearchColumnsWithOrderDestination] =
+    useState([
+      {
+        name: "Mã đơn",
+        isShow: true,
+      },
+      {
+        name: "Người nhận",
+        isShow: true,
+      },
+      {
+        name: "Contact",
+        isShow: true,
+      },
+      {
+        name: "Địa chỉ",
+        isShow: true,
+      },
+      {
+        name: "Thao tác",
+        isShow: true,
+      },
+    ]);
+
+  const [selectedStatus, setSelectedStatus] = useState<"waiting" | "destination">("waiting");
+
   Chart.register(...registerables);
+
   function handleChangeFilterColumn(index) {
     const tableSearchColumnsData = cloneDeep(tableSearchColumns);
-    tableSearchColumnsData[index].isShow =
-      !tableSearchColumnsData[index].isShow;
+    tableSearchColumnsData[index].isShow = !tableSearchColumnsData[index].isShow;
     setTableSearchColumns(tableSearchColumnsData);
   }
 
@@ -213,6 +268,27 @@ const ProfilePage = () => {
     filterInputListData[index].isShow = !filterInputListData[index].isShow;
     setFilterInputList(filterInputListData);
   }
+
+  function handleChangeFilterColumnWithOder(index) {
+    if (selectedStatus === "waiting") {
+      const tableSearchColumnsData = cloneDeep(tableSearchColumnsWithOrder);
+      tableSearchColumnsData[index].isShow = !tableSearchColumnsData[index].isShow;
+      setTableSearchColumnsWithOrder(tableSearchColumnsData);
+    } else {
+      const tableSearchColumnsData = cloneDeep(tableSearchColumnsWithOrderDestination);
+      tableSearchColumnsData[index].isShow = !tableSearchColumnsData[index].isShow;
+      setTableSearchColumnsWithOrderDestination(tableSearchColumnsData);
+    }
+  }
+
+  const dataRenderOrder = useMemo(() => {
+    if (selectedStatus === "waiting") {
+      return tableSearchColumnsWithOrder;
+    }
+
+    return tableSearchColumnsWithOrderDestination;
+  }, [selectedStatus, tableSearchColumnsWithOrder, tableSearchColumnsWithOrderDestination]);
+
   return (
     <MasterLayout activeButton="">
       <ProfilePageStyled>
@@ -229,18 +305,14 @@ const ProfilePage = () => {
                 >
                   <FontAwesomeIcon icon={faUser} />
                   <span className="ms-3">Quản lý tài khoản</span>
-                  <FontAwesomeIcon
-                    icon={selectChosen == "qltk" ? faChevronUp : faChevronDown}
-                  />
+                  <FontAwesomeIcon icon={selectChosen == "qltk" ? faChevronUp : faChevronDown} />
                 </div>
                 {selectChosen == "qltk" && (
                   <div className="menuSide_subSelect">
                     <button
                       onClick={() => setSubSelectChosen("tttk")}
                       className={cx({
-                        "-active":
-                          subSelectChosen == "tttk" ||
-                          subSelectChosen == "tttk_edit",
+                        "-active": subSelectChosen == "tttk" || subSelectChosen == "tttk_edit",
                       })}
                     >
                       Thông tin tài khoản
@@ -262,9 +334,7 @@ const ProfilePage = () => {
                 >
                   <FontAwesomeIcon icon={faBars} />
                   <span className="ms-3">Quản lý hệ thống</span>
-                  <FontAwesomeIcon
-                    icon={selectChosen == "qlht" ? faChevronUp : faChevronDown}
-                  />
+                  <FontAwesomeIcon icon={selectChosen == "qlht" ? faChevronUp : faChevronDown} />
                 </div>
                 <div
                   className="menuSide_select"
@@ -275,9 +345,7 @@ const ProfilePage = () => {
                 >
                   <FontAwesomeIcon icon={faListCheck} />
                   <span className="ms-3">Quản lý đơn hàng</span>
-                  <FontAwesomeIcon
-                    icon={selectChosen == "qldh" ? faChevronUp : faChevronDown}
-                  />
+                  <FontAwesomeIcon icon={selectChosen == "qldh" ? faChevronUp : faChevronDown} />
                 </div>
                 {selectChosen == "qldh" && (
                   <div className="menuSide_subSelect">
@@ -304,9 +372,7 @@ const ProfilePage = () => {
                 >
                   <FontAwesomeIcon icon={faFilter} />
                   <span className="ms-3">Thống kê</span>
-                  <FontAwesomeIcon
-                    icon={selectChosen == "tk" ? faChevronUp : faChevronDown}
-                  />
+                  <FontAwesomeIcon icon={selectChosen == "tk" ? faChevronUp : faChevronDown} />
                 </div>
                 {selectChosen == "tk" && (
                   <div className="menuSide_subSelect">
@@ -314,19 +380,19 @@ const ProfilePage = () => {
                       onClick={() => setSubSelectChosen("hg")}
                       className={cx({ "-active": subSelectChosen == "hg" })}
                     >
-                      Hàng gửi
+                      Xem thống kê
                     </button>
                     <button
                       onClick={() => setSubSelectChosen("hn")}
                       className={cx({ "-active": subSelectChosen == "hn" })}
                     >
-                      Hàng nhận
+                      Hàng gửi
                     </button>
                     <button
                       onClick={() => setSubSelectChosen("tc")}
                       className={cx({ "-active": subSelectChosen == "tc" })}
                     >
-                      Tra cứu
+                      Hàng nhận
                     </button>
                   </div>
                 )}
@@ -337,26 +403,13 @@ const ProfilePage = () => {
                 {subSelectChosen == "tttk" && (
                   <div className="row align-items-center">
                     <div className="col-6">
-                      <Image
-                        src="/images/empty-image.png"
-                        alt=""
-                        width={300}
-                        height={300}
-                      />
+                      <Image src="/images/v1/user-is-logged.png" alt="" width={300} height={300} />
                     </div>
                     <div className="col-6 text-center">
-                      <div className="p-2 border-bottom border-secondary">
-                        Username
-                      </div>
-                      <div className="p-2 border-bottom border-secondary">
-                        ID
-                      </div>
-                      <div className="p-2 border-bottom border-secondary">
-                        Chức vụ
-                      </div>
-                      <div className="p-2 border-bottom border-secondary">
-                        Password
-                      </div>
+                      <div className="p-2 border-bottom border-secondary">Username</div>
+                      <div className="p-2 border-bottom border-secondary">ID</div>
+                      <div className="p-2 border-bottom border-secondary">Chức vụ</div>
+                      <div className="p-2 border-bottom border-secondary">Password</div>
                       <button
                         className="btn buttonSubmit mt-4"
                         onClick={() => setSubSelectChosen("tttk_edit")}
@@ -368,15 +421,10 @@ const ProfilePage = () => {
                 )}
                 {subSelectChosen == "tttk_edit" && (
                   <div className="editProfile">
-                    <h4 className="fw-bold text-center text-black mb-3">
-                      Chỉnh sửa tài khoản
-                    </h4>
+                    <h4 className="fw-bold text-center text-black mb-3">Chỉnh sửa tài khoản</h4>
                     <form>
                       <div className="mb-3">
-                        <select
-                          className="form-select"
-                          aria-label="Default select example"
-                        >
+                        <select className="form-select" aria-label="Default select example">
                           <option selected>Chức vụ</option>
                           <option value="1">One</option>
                           <option value="2">Two</option>
@@ -384,10 +432,7 @@ const ProfilePage = () => {
                         </select>
                       </div>
                       <div className="mb-3">
-                        <select
-                          className="form-select"
-                          aria-label="Default select example"
-                        >
+                        <select className="form-select" aria-label="Default select example">
                           <option selected>Điểm giao dịch</option>
                           <option value="1">One</option>
                           <option value="2">Two</option>
@@ -395,17 +440,10 @@ const ProfilePage = () => {
                         </select>
                       </div>
                       <div className="mb-3">
-                        <input
-                          className="form-control"
-                          placeholder="Tên đăng nhập"
-                        />
+                        <input className="form-control" placeholder="Tên đăng nhập" />
                       </div>
                       <div className="mb-3">
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Mật khẩu *"
-                        />
+                        <input type="password" className="form-control" placeholder="Mật khẩu *" />
                       </div>
                       <div className="d-flex mt-2">
                         <button
@@ -465,28 +503,17 @@ const ProfilePage = () => {
                 )}
                 {subSelectChosen == "tdh" && (
                   <div className="createOrder">
-                    <h4 className="fw-bold text-center text-black mb-3">
-                      Tạo đơn hàng
-                    </h4>
+                    <h4 className="fw-bold text-center text-black mb-3">Tạo đơn hàng</h4>
                     <form>
                       <div className="row">
                         <div className="col-6 mb-3">
-                          <input
-                            className="form-control"
-                            placeholder="Người gửi"
-                          />
+                          <input className="form-control" placeholder="Người gửi" />
                         </div>
                         <div className="col-6 mb-3">
-                          <input
-                            className="form-control"
-                            placeholder="Người nhận"
-                          />
+                          <input className="form-control" placeholder="Người nhận" />
                         </div>
                         <div className="col-6 mb-3">
-                          <select
-                            className="form-select"
-                            aria-label="Default select example"
-                          >
+                          <select className="form-select" aria-label="Default select example">
                             <option selected>Điểm giao dịch gửi</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -494,10 +521,7 @@ const ProfilePage = () => {
                           </select>
                         </div>
                         <div className="col-6 mb-3">
-                          <select
-                            className="form-select"
-                            aria-label="Default select example"
-                          >
+                          <select className="form-select" aria-label="Default select example">
                             <option selected>Điểm giao dịch nhận</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -505,22 +529,13 @@ const ProfilePage = () => {
                           </select>
                         </div>
                         <div className="col-6 mb-3">
-                          <input
-                            className="form-control"
-                            placeholder="SDT người gửi"
-                          />
+                          <input className="form-control" placeholder="SDT người gửi" />
                         </div>
                         <div className="col-6 mb-3">
-                          <input
-                            className="form-control"
-                            placeholder="SDT người nhận"
-                          />
+                          <input className="form-control" placeholder="SDT người nhận" />
                         </div>
                         <div className="col-6 mb-3">
-                          <select
-                            className="form-select"
-                            aria-label="Default select example"
-                          >
+                          <select className="form-select" aria-label="Default select example">
                             <option selected>Loại hàng</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -528,64 +543,202 @@ const ProfilePage = () => {
                           </select>
                         </div>
                         <div className="col-6 mb-3">
-                          <input
-                            type="date"
-                            className="form-control"
-                            placeholder="Thời gian"
-                          />
+                          <input type="date" className="form-control" placeholder="Thời gian" />
                         </div>
                         <div className="col-6 mb-3">
-                          <input
-                            className="form-control"
-                            placeholder="Khối lượng"
-                          />
+                          <input className="form-control" placeholder="Khối lượng" />
                         </div>
                         <div className="col-6 mb-3">
-                          <input
-                            className="form-control"
-                            placeholder="Chi phí"
-                          />
+                          <input className="form-control" placeholder="Chi phí" />
                         </div>
                       </div>
                       <div className="text-center mt-2">
-                        <button className="btn buttonSubmit w-50">
-                          Tạo đơn hàng
-                        </button>
+                        <button className="btn buttonSubmit w-50">Tạo đơn hàng</button>
                       </div>
                     </form>
                   </div>
                 )}
-                {subSelectChosen == "xndh" && <div></div>}
+                {subSelectChosen == "xndh" && (
+                  <div className="createOrder">
+                    <h4 className="fw-bold text-center text-black mb-3">Xác nhận đơn hàng</h4>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="searchInput d-flex gap-3">
+                        <button
+                          className={`btn btn-${
+                            selectedStatus === "waiting" ? "danger" : "secondary"
+                          } fw-bold`}
+                          onClick={() => setSelectedStatus("waiting")}
+                        >
+                          Chờ giao (1)
+                        </button>
+                        <button
+                          className={`btn btn-${
+                            selectedStatus === "destination" ? "info" : "secondary"
+                          } fw-bold`}
+                          onClick={() => setSelectedStatus("destination")}
+                        >
+                          Đã tới (5)
+                        </button>
+                      </div>
+
+                      <div className="d-flex">
+                        <div className="filterBtn">
+                          <div
+                            className="filterBtn_icon me-4 text-white"
+                            onClick={() =>
+                              setFilterBtnType(
+                                filterBtnType == "filterColumn" ? "" : "filterColumn"
+                              )
+                            }
+                          >
+                            <FontAwesomeIcon icon={faListUl} />
+                          </div>
+                          {filterBtnType == "filterColumn" && (
+                            <div className="filterBtn_content">
+                              {dataRenderOrder.map((item, index) => {
+                                return (
+                                  <div className="form-check form-switch">
+                                    <label className="form-check-label">
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={item.isShow}
+                                        onChange={() => handleChangeFilterColumnWithOder(index)}
+                                      />
+                                      {item.name}
+                                    </label>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="filterBtn">
+                          <div className="filterBtn_icon text-white">
+                            <FontAwesomeIcon icon={faCloudArrowDown} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <table className="table table-striped ">
+                      <thead>
+                        <tr>
+                          {dataRenderOrder
+                            .filter((item) => item.isShow)
+                            .map((item) => {
+                              return <th scope="col">{item.name}</th>;
+                            })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <tr key={index}>
+                            {dataRenderOrder
+                              .filter((item) => item.isShow)
+                              .map((item) => {
+                                if (item.name === "Trạng thái") {
+                                  return (
+                                    <td>
+                                      <div>
+                                        <span
+                                          style={{ background: "#B4B4E4" }}
+                                          class="badge badge-pill badge-success text-white"
+                                        >
+                                          Đã tới điểm gd
+                                        </span>
+                                      </div>
+                                    </td>
+                                  );
+                                }
+
+                                if (item.name === "Thao tác") {
+                                  return (
+                                    <td scope="col">
+                                      {selectedStatus === "waiting" ? (
+                                        <>
+                                          <button className={`btn btn-success btn-sm fw-bold`}>
+                                            Xác nhận
+                                          </button>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <button
+                                            className={`btn btn-small btn-success fw-bold btn-sm`}
+                                            onClick={() => setSelectedStatus("waiting")}
+                                          >
+                                            Thành công
+                                          </button>
+                                          <button
+                                            className={`btn btn-danger ms-1 fw-bold btn-sm`}
+                                            onClick={() => setSelectedStatus("destination")}
+                                          >
+                                            Thất bại
+                                          </button>
+                                        </>
+                                      )}
+                                    </td>
+                                  );
+                                }
+
+                                return <td scope="col">x</td>;
+                              })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Trước
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            1
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            2
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            3
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Sau
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                )}
                 {subSelectChosen == "hg" && (
                   <div>
                     <Line
                       data={{
-                        labels: [
-                          1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999,
-                          2050,
-                        ],
+                        labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
                         datasets: [
                           {
-                            data: [
-                              86, 114, 106, 106, 107, 111, 133, 221, 783, 2478,
-                            ],
+                            data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
                             label: "Africa",
                             borderColor: "#3e95cd",
                             fill: false,
                           },
                           {
-                            data: [
-                              282, 350, 411, 502, 635, 809, 947, 1402, 3700,
-                              5267,
-                            ],
+                            data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
                             label: "Asia",
                             borderColor: "#8e5ea2",
                             fill: false,
                           },
                           {
-                            data: [
-                              168, 170, 178, 190, 203, 276, 408, 547, 675, 734,
-                            ],
+                            data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
                             label: "Europe",
                             borderColor: "#3cba9f",
                             fill: false,
@@ -615,83 +768,109 @@ const ProfilePage = () => {
                         },
                       }}
                     />
-                    <div className="searchInput mt-5">
-                      <input type="text" placeholder="Search" />
-                      <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        className="me-2"
-                      />
-                    </div>
-                    <table className="table table-striped mt-2">
+
+                    <table className="table table-striped mt-5">
                       <thead>
                         <tr>
                           <th scope="col">Mã đơn</th>
                           <th scope="col">Thời gian</th>
                           <th scope="col">Người gửi</th>
                           <th scope="col">Người nhận</th>
-                          <th scope="col">Hàng hóa</th>
                           <th scope="col">Tình trạng</th>
+                          <th scope="col">All/dtk/dgd</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <th>x</th>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
+                          <th>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </th>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input
+                              style={{ width: "116px", heigth: "34px" }}
+                              type="submit"
+                              value="Find"
+                            />
+                          </td>
                         </tr>
-                        <tr>
-                          <th>x</th>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                        </tr>
-                        <tr>
-                          <th>x</th>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                        </tr>
+
+                        {Array.from({ length: 4 }).map((_, index) => (
+                          <tr key={index}>
+                            <th>{`23071WCQF${index + 1}`}</th>
+                            <td align="center">{`13:${(index + 1) * 10}`}</td>
+                            <td align="center">{`Ola ${index + 1}`}</td>
+                            <td align="center">{`Elsa ${index + 1}`}</td>
+                            <td align="left" style={{ fontSize: 13 }}>
+                              {index % 2 === 0 ? "Chuyển thành công" : `Đang  giao`}
+                            </td>
+                            <td></td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Trước
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            1
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            2
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            3
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Sau
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 )}
                 {subSelectChosen == "hn" && (
                   <div>
                     <Line
                       data={{
-                        labels: [
-                          1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999,
-                          2050,
-                        ],
+                        labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
                         datasets: [
                           {
-                            data: [
-                              86, 114, 106, 106, 107, 111, 133, 221, 783, 2478,
-                            ],
+                            data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
                             label: "Africa",
                             borderColor: "#3e95cd",
                             fill: false,
                           },
                           {
-                            data: [
-                              282, 350, 411, 502, 635, 809, 947, 1402, 3700,
-                              5267,
-                            ],
+                            data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
                             label: "Asia",
                             borderColor: "#8e5ea2",
                             fill: false,
                           },
                           {
-                            data: [
-                              168, 170, 178, 190, 203, 276, 408, 547, 675, 734,
-                            ],
+                            data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
                             label: "Europe",
                             borderColor: "#3cba9f",
                             fill: false,
@@ -721,51 +900,88 @@ const ProfilePage = () => {
                         },
                       }}
                     />
-                    <div className="searchInput mt-5">
-                      <input type="text" placeholder="Search" />
-                      <FontAwesomeIcon
-                        icon={faMagnifyingGlass}
-                        className="me-2"
-                      />
-                    </div>
-                    <table className="table table-striped mt-2">
+
+                    <table className="table table-striped mt-5">
                       <thead>
                         <tr>
                           <th scope="col">Mã đơn</th>
                           <th scope="col">Thời gian</th>
                           <th scope="col">Người gửi</th>
                           <th scope="col">Người nhận</th>
-                          <th scope="col">Hàng hóa</th>
                           <th scope="col">Tình trạng</th>
+                          <th scope="col">All/dtk/dgd</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <th>x</th>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
+                          <th>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </th>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input style={{ width: "116px", heigth: "34px" }} />
+                          </td>
+                          <td>
+                            <input
+                              style={{ width: "116px", heigth: "34px" }}
+                              type="submit"
+                              value="Find"
+                            />
+                          </td>
                         </tr>
-                        <tr>
-                          <th>x</th>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                        </tr>
-                        <tr>
-                          <th>x</th>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                          <td>x</td>
-                        </tr>
+
+                        {Array.from({ length: 4 }).map((_, index) => (
+                          <tr key={index}>
+                            <th>{`23071WCQF${index + 1}`}</th>
+                            <td align="center">{`13:${(index + 1) * 10}`}</td>
+                            <td align="center">{`Ola ${index + 1}`}</td>
+                            <td align="center">{`Elsa ${index + 1}`}</td>
+                            <td align="left" style={{ fontSize: 13 }}>
+                              {index % 2 === 0 ? "Chuyển thành công" : `Đang  giao`}
+                            </td>
+                            <td></td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
+
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Trước
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            1
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            2
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            3
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Sau
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 )}
                 {subSelectChosen == "tc" && (
@@ -773,10 +989,7 @@ const ProfilePage = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="searchInput">
                         <input type="text" placeholder="Search" />
-                        <FontAwesomeIcon
-                          icon={faMagnifyingGlass}
-                          className="me-2"
-                        />
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="me-2" />
                       </div>
                       <div className="d-flex">
                         <div className="filterBtn">
@@ -784,9 +997,7 @@ const ProfilePage = () => {
                             className="filterBtn_icon me-4"
                             onClick={() =>
                               setFilterBtnType(
-                                filterBtnType == "filterColumn"
-                                  ? ""
-                                  : "filterColumn"
+                                filterBtnType == "filterColumn" ? "" : "filterColumn"
                               )
                             }
                           >
@@ -802,9 +1013,7 @@ const ProfilePage = () => {
                                         className="form-check-input"
                                         type="checkbox"
                                         checked={item.isShow}
-                                        onChange={() =>
-                                          handleChangeFilterColumn(index)
-                                        }
+                                        onChange={() => handleChangeFilterColumn(index)}
                                       />
                                       {item.name}
                                     </label>
@@ -818,9 +1027,7 @@ const ProfilePage = () => {
                           <div
                             className="filterBtn_icon"
                             onClick={() =>
-                              setFilterBtnType(
-                                filterBtnType == "addFilter" ? "" : "addFilter"
-                              )
+                              setFilterBtnType(filterBtnType == "addFilter" ? "" : "addFilter")
                             }
                           >
                             <FontAwesomeIcon icon={faSquarePlus} />
@@ -836,9 +1043,7 @@ const ProfilePage = () => {
                                 >
                                   <div className="d-flex justify-content-between">
                                     <span>{item.name}</span>
-                                    <FontAwesomeIcon
-                                      icon={item.isShow ? faMinus : faPlus}
-                                    />
+                                    <FontAwesomeIcon icon={item.isShow ? faMinus : faPlus} />
                                   </div>
                                 </div>
                               ))}
@@ -852,6 +1057,7 @@ const ProfilePage = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="searchFields">
                       {filterInputList
                         .filter((item) => item.isShow)
@@ -863,6 +1069,7 @@ const ProfilePage = () => {
                           );
                         })}
                     </div>
+
                     <table className="table table-striped mt-5">
                       <thead>
                         <tr>
@@ -873,16 +1080,94 @@ const ProfilePage = () => {
                             })}
                         </tr>
                       </thead>
+
                       <tbody>
                         <tr>
                           {tableSearchColumns
                             .filter((item) => item.isShow)
-                            .map((item) => {
-                              return <td scope="col">x</td>;
+                            .map((item, idx) => {
+                              if (item.name === "All/dtk/dgd") {
+                                return (
+                                  <td>
+                                    <input
+                                      style={{ width: "116px", heigth: "34px" }}
+                                      type="submit"
+                                      value="Find"
+                                    />
+                                  </td>
+                                );
+                              }
+
+                              return (
+                                <td key={idx}>
+                                  <input style={{ width: "116px", heigth: "34px" }} />
+                                </td>
+                              );
+                            })}
+                        </tr>
+                        <tr>
+                          {tableSearchColumns
+                            .filter((item) => item.isShow)
+                            .map((item, idx) => {
+                              if (item.name === "Thời gian") {
+                                return <td>13:20</td>;
+                              }
+
+                              if (item.name === "Người gửi") {
+                                return <td>Ola</td>;
+                              }
+
+                              if (item.name === "Người nhận") {
+                                return <td>Elsa</td>;
+                              }
+
+                              if (item.name === "All/dtk/dgd") {
+                                return <td></td>;
+                              }
+
+                              if (item.name === "Tình trạng") {
+                                return <td style={{ fontSize: 13 }}>Đang chuyển</td>;
+                              }
+
+                              return (
+                                <td key={idx} scope="col">
+                                  23071WCQF
+                                </td>
+                              );
                             })}
                         </tr>
                       </tbody>
                     </table>
+
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Trước
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            1
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            2
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            3
+                          </a>
+                        </li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            Sau
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 )}
               </div>

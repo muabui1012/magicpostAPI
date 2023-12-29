@@ -51,7 +51,8 @@ const ContactPage = () => {
               }}
             >
               <Image
-                src="/images/empty-image.png"
+                src="/images/v1/fast.png"
+                className="object-fit--cover icon-white"
                 alt=""
                 width={70}
                 height={70}
@@ -59,8 +60,8 @@ const ContactPage = () => {
             </div>
             <h2 className="text-center fw-bold mb-4">Đặt lại mật khẩu</h2>
             <p style={{ color: "#B4B4E4" }} className="text-center fw-bold">
-              Nhập địa chỉ email đã được xác minh tài khoản người dùng của bạn
-              và chúng tôi sẽ gửi cho bạn liên kết đặt lại mật khẩu.
+              Nhập địa chỉ email đã được xác minh tài khoản người dùng của bạn và chúng tôi sẽ gửi
+              cho bạn liên kết đặt lại mật khẩu.
             </p>
             <form className="mt-4 px-4">
               <div className="mb-4">
@@ -75,10 +76,7 @@ const ContactPage = () => {
                 Gửi mật khẩu
               </button>
             </form>
-            <div
-              className="text-center fw-bold mt-5"
-              style={{ fontSize: "12px" }}
-            >
+            <div className="text-center fw-bold mt-5" style={{ fontSize: "12px" }}>
               Chưa có tài khoản?&nbsp;
               <NextLink href="/dang-ky">
                 <a className="text-info">Đăng ký</a>

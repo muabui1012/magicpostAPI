@@ -1,9 +1,8 @@
-import React from "react";
-
+import { cx } from "@emotion/css";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { cx } from "@emotion/css";
 import NextLink from "next/link";
+import NavbarLogin from "../ui/NavbarLogin";
 
 const LayoutHeaderStyled = styled.header`
   background-color: #595ce2;
@@ -46,71 +45,59 @@ export interface LayoutHeaderProps {
   activeButton?: "trangchu" | "dichvu" | "hotro" | "tracuu" | "";
 }
 
-export const LayoutHeader = ({
-  activeButton = "trangchu",
-}: LayoutHeaderProps) => (
-  <LayoutHeaderStyled>
-    <div className="navbar px-5">
-      {/* <NextLink href="/">
-        <a> */}
-      <Image
-        className="navbar_logo"
-        src="/images/empty-image.png"
-        alt=""
-        width={200}
-        height={50}
-      />
-      {/* </a>
-      </NextLink> */}
-      <div className="navbar_links">
-        <div
-          className={cx("navbarLink", {
-            "-active": activeButton == "trangchu",
-          })}
-        >
-          <NextLink href="/">Trang chủ</NextLink>
-        </div>
-        <div
-          className={cx("navbarLink", {
-            "-active": activeButton == "tracuu",
-          })}
-        >
-          <NextLink href="/tra-cuu">Tra cứu</NextLink>
-        </div>
-        <div
-          className={cx("navbarLink", {
-            "-active": activeButton == "dichvu",
-          })}
-        >
-          <NextLink href="/dich-vu">Dịch vụ</NextLink>
-        </div>
-        <div
-          className={cx("navbarLink", {
-            "-active": activeButton == "hotro",
-          })}
-        >
-          <NextLink href="/ho-tro">Hỗ trợ</NextLink>
-        </div>
-      </div>
-      <div className="navbar_links">
-        <NextLink href="/dang-nhap">
-          <button className="btn me-3">Đăng nhập</button>
-        </NextLink>
-        <NextLink href="/dang-ky">
-          <button className="btn me-3">Đăng ký</button>
-        </NextLink>
-        <NextLink href="/thong-tin-ca-nhan">
+export const LayoutHeader = ({ activeButton = "trangchu" }: LayoutHeaderProps) => {
+  return (
+    <LayoutHeaderStyled>
+      <div className="navbar px-5 align-items-center">
+        {/* <NextLink href="/">
+          <a> */}
+        <div>
           <Image
-            className="navbar_logo"
-            src="/images/empty-image.png"
+            className="navbar_logo navbar-logo--header"
+            src="/images/v1/logo-header.png"
             alt=""
-            width={50}
-            height={50}
+            width={200}
+            height={40}
+            loading="lazy"
           />
-        </NextLink>
+        </div>
+        {/* </a>
+        </NextLink> */}
+        <div className="navbar_links">
+          <div
+            className={cx("navbarLink", {
+              "-active": activeButton == "trangchu",
+            })}
+          >
+            <NextLink href="/">Trang chủ</NextLink>
+          </div>
+          <div
+            className={cx("navbarLink", {
+              "-active": activeButton == "tracuu",
+            })}
+          >
+            <NextLink href="/tra-cuu">Tra cứu</NextLink>
+          </div>
+          <div
+            className={cx("navbarLink", {
+              "-active": activeButton == "dichvu",
+            })}
+          >
+            <NextLink href="/dich-vu">Dịch vụ</NextLink>
+          </div>
+          <div
+            className={cx("navbarLink", {
+              "-active": activeButton == "hotro",
+            })}
+          >
+            <NextLink href="/ho-tro">Hỗ trợ</NextLink>
+          </div>
+        </div>
+
+        <NavbarLogin />
       </div>
-    </div>
-  </LayoutHeaderStyled>
-);
+    </LayoutHeaderStyled>
+  );
+};
 
 export default LayoutHeader;

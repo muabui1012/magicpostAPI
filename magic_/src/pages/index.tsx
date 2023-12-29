@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Image from "next/image";
-import Button from "../components/atoms/Button";
-import { MasterLayout } from "../components/templates/MasterLayout";
+import NextLink from "next/link";
 import "swiper/css";
 import "swiper/css/bundle";
-import NextLink from "next/link";
+import { MasterLayout } from "../components/templates/MasterLayout";
+import { ToastContainer } from "react-toastify";
 
 const HomePageStyled = styled.div`
   button {
@@ -44,10 +44,7 @@ const Home: NextPage = () => {
                 width={350}
                 height={350}
               />
-              <div
-                className="position-absolute"
-                style={{ top: "130px", left: "200px" }}
-              >
+              <div className="position-absolute" style={{ top: "130px", left: "200px" }}>
                 <h1>Magic Post</h1>
                 <h3>Giao Siêu Nhanh, Giá Siêu Tốt</h3>
               </div>
@@ -69,6 +66,19 @@ const Home: NextPage = () => {
           </div>
         </div>
       </HomePageStyled>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </MasterLayout>
   );
 };

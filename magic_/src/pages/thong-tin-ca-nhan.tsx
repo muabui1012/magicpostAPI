@@ -289,6 +289,10 @@ const ProfilePage = () => {
     return tableSearchColumnsWithOrderDestination;
   }, [selectedStatus, tableSearchColumnsWithOrder, tableSearchColumnsWithOrderDestination]);
 
+  console.log("====================================");
+  console.log(`subSelectChosen`, subSelectChosen);
+  console.log("====================================");
+
   return (
     <MasterLayout activeButton="">
       <ProfilePageStyled>
@@ -329,13 +333,31 @@ const ProfilePage = () => {
                   className="menuSide_select"
                   onClick={() => {
                     setSelectChosen("qlht");
-                    setSubSelectChosen("");
+                    setSubSelectChosen("qlht");
                   }}
                 >
                   <FontAwesomeIcon icon={faBars} />
                   <span className="ms-3">Quản lý hệ thống</span>
                   <FontAwesomeIcon icon={selectChosen == "qlht" ? faChevronUp : faChevronDown} />
                 </div>
+                {selectChosen == "qlht" && (
+                  <div className="menuSide_subSelect">
+                    <button
+                      onClick={() => setSubSelectChosen("tdgd")}
+                      className={cx({
+                        "-active": subSelectChosen == "tdgd" || subSelectChosen == "tttk_edit",
+                      })}
+                    >
+                      Tạo ĐGD
+                    </button>
+                    <button
+                      onClick={() => setSubSelectChosen("qlht")}
+                      className={cx({ "-active": subSelectChosen == "qlht" })}
+                    >
+                      Danh sách ĐGD
+                    </button>
+                  </div>
+                )}
                 <div
                   className="menuSide_select"
                   onClick={() => {
@@ -398,9 +420,11 @@ const ProfilePage = () => {
                 )}
               </div>
             </div>
+
             <div className="col-8">
               <div className="contentSide">
-                {subSelectChosen == "tttk" && (
+                {}
+                {subSelectChosen === "tttk" && (
                   <div className="row align-items-center">
                     <div className="col-6">
                       <Image src="/images/v1/user-is-logged.png" alt="" width={300} height={300} />
@@ -419,7 +443,122 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 )}
-                {subSelectChosen == "tttk_edit" && (
+                {subSelectChosen === "tdgd" && (
+                  <div className="createOrder">
+                    <h4 className="fw-bold text-center text-black mb-3">Tạo điểm giao dịch</h4>
+                    <form>
+                      <div className="row">
+                        <div className="col-12 mb-3">
+                          <select className="form-select" aria-label="Default select example">
+                            <option selected>Tỉnh thành phố</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+
+                        <div className="col-12 mb-3">
+                          <select className="form-select" aria-label="Default select example">
+                            <option selected>Huyện/Quận</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                        <div className="col-12 mb-3">
+                          <select className="form-select" aria-label="Default select example">
+                            <option selected>Xã/phường</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                        <div className="col-12 mb-3">
+                          <input className="form-control" placeholder="Địa chỉ cụ thể" />
+                        </div>
+
+                        <div className="col-10 mb-3">
+                          <input className="form-control" placeholder="Tên điểm giao dịch" />
+                        </div>
+                        <div className="col-2 mb-3">
+                          <input className="form-control" placeholder="Id" />
+                        </div>
+
+                        <div className="col-10 mb-3">
+                          <input
+                            className="form-control"
+                            placeholder="Tên quản lý điểm giao dịch"
+                          />
+                        </div>
+                        <div className="col-2 mb-3">
+                          <input className="form-control" placeholder="Id" />
+                        </div>
+                      </div>
+                      <div className="text-center mt-2">
+                        <button className="btn buttonSubmit me-2">Hủy</button>
+                        <button className="btn buttonSubmit ">Lưu</button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+                {subSelectChosen === "qlht" && (
+                  <div>
+                    <table className="table table-striped mt-5">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">DGD</th>
+                          <th scope="col">Quản lý</th>
+                          <th scope="col">Thành phố</th>
+                          <th scope="col">Xóa</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Array.from({ length: 4 }).map((_, index) => (
+                          <tr key={index}>
+                            <th>{`23071WCQF${index + 1}`}</th>
+                            <td align="center">{`13:${(index + 1) * 10}`}</td>
+                            <td align="center">{`Ola ${index + 1}`}</td>
+                            <td align="center">{`Elsa ${index + 1}`}</td>
+                            <td align="left" style={{ fontSize: 13 }}>
+                              <button className="btn btn-danger">Xóa</button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                      <ul className="pagination">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
+                            Trước
+                          </a>
+                        </li>
+                        <li className="page-item">
+                          <a className="page-link" href="#">
+                            1
+                          </a>
+                        </li>
+                        <li className="page-item">
+                          <a className="page-link" href="#">
+                            2
+                          </a>
+                        </li>
+                        <li className="page-item">
+                          <a className="page-link" href="#">
+                            3
+                          </a>
+                        </li>
+                        <li className="page-item">
+                          <a className="page-link" href="#">
+                            Sau
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                )}
+                {subSelectChosen === "tttk_edit" && (
                   <div className="editProfile">
                     <h4 className="fw-bold text-center text-black mb-3">Chỉnh sửa tài khoản</h4>
                     <form>
@@ -459,7 +598,7 @@ const ProfilePage = () => {
                     </form>
                   </div>
                 )}
-                {subSelectChosen == "dstk" && (
+                {subSelectChosen === "dstk" && (
                   <table className="table table-striped">
                     <thead>
                       <tr>
@@ -501,7 +640,7 @@ const ProfilePage = () => {
                     </tbody>
                   </table>
                 )}
-                {subSelectChosen == "tdh" && (
+                {subSelectChosen === "tdh" && (
                   <div className="createOrder">
                     <h4 className="fw-bold text-center text-black mb-3">Tạo đơn hàng</h4>
                     <form>
@@ -558,7 +697,7 @@ const ProfilePage = () => {
                     </form>
                   </div>
                 )}
-                {subSelectChosen == "xndh" && (
+                {subSelectChosen === "xndh" && (
                   <div className="createOrder">
                     <h4 className="fw-bold text-center text-black mb-3">Xác nhận đơn hàng</h4>
                     <div className="d-flex justify-content-between align-items-center">
@@ -644,7 +783,7 @@ const ProfilePage = () => {
                                       <div>
                                         <span
                                           style={{ background: "#B4B4E4" }}
-                                          class="badge badge-pill badge-success text-white"
+                                          className="badge badge-pill badge-success text-white"
                                         >
                                           Đã tới điểm gd
                                         </span>
@@ -689,29 +828,29 @@ const ProfilePage = () => {
                       </tbody>
                     </table>
                     <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                      <ul className="pagination">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Trước
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             1
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             2
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             3
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Sau
                           </a>
                         </li>
@@ -719,7 +858,7 @@ const ProfilePage = () => {
                     </nav>
                   </div>
                 )}
-                {subSelectChosen == "hg" && (
+                {subSelectChosen === "hg" && (
                   <div>
                     <Line
                       data={{
@@ -821,29 +960,29 @@ const ProfilePage = () => {
                       </tbody>
                     </table>
                     <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                      <ul className="pagination">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Trước
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             1
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             2
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             3
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Sau
                           </a>
                         </li>
@@ -851,7 +990,7 @@ const ProfilePage = () => {
                     </nav>
                   </div>
                 )}
-                {subSelectChosen == "hn" && (
+                {subSelectChosen === "hn" && (
                   <div>
                     <Line
                       data={{
@@ -954,29 +1093,29 @@ const ProfilePage = () => {
                     </table>
 
                     <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                      <ul className="pagination">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Trước
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             1
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             2
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             3
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Sau
                           </a>
                         </li>
@@ -984,7 +1123,7 @@ const ProfilePage = () => {
                     </nav>
                   </div>
                 )}
-                {subSelectChosen == "tc" && (
+                {subSelectChosen === "tc" && (
                   <div>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="searchInput">
@@ -1140,29 +1279,29 @@ const ProfilePage = () => {
                     </table>
 
                     <nav aria-label="Page navigation example">
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                      <ul className="pagination">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Trước
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             1
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             2
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             3
                           </a>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
+                        <li className="page-item">
+                          <a className="page-link" href="#">
                             Sau
                           </a>
                         </li>

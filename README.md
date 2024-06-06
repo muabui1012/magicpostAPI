@@ -15,5 +15,12 @@ Chạy dự án ở localhost:
 		- chạy cmd cài đặt laravel composer global require laravel/installer
 		- setup lại file .env (bỏ đuôi .example của .env.example) 
 		- khởi tạo cơ sở dữ liệu bằng lệnh: php artisan migrate hoặc sử dụng file cơ sơ dữ liệu backup import vào xampp
-		- khởi tạo backend server bằng lệnh: php artisan serve
+		- khởi tạo backend server bằng lệnh: php artisan server
+
+Screenshots:
+![vlcsnap-2024-06-06-16h14m29s390](https://github.com/muabui1012/magicpostAPI/assets/39801919/5b7ae23f-cdea-45ea-8916-abc1f6b783bd)
+
+![vlcsnap-2024-06-06-16h15m00s854](https://github.com/muabui1012/magicpostAPI/assets/39801919/b0af1a00-07c2-44e3-921c-22008663f508)
+
+![Uploading vlcsnap-2024-06-06-16h15m14s950.png…]()
 

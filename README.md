@@ -1,18 +1,4 @@
-- Thành viên trong nhóm:
-1) Trần Phương Linh - 21020214
-2) Đào Xuân Nghĩa - 21020472	
-3) Phạm Tuấn Nghĩa -21020473
-
-- Phân chia công việc:
-+ Đào Tuấn Nghĩa: Host backend, thiết lập cơ sở dữ liệu, sinh fake data, viết toàn bộ phần backend, API trả dữ liệu về cho frontend, thiết lập bảo mật, phân quyền bằng token, hash password, ...
-
-+ Trần Phương Linh (Front end): Landing page, create account, registry certification. Call API, lấy và xử lý dữ liệu từ backend .Component: button, navbar, các chart liên quan, Tra cứu, Thống kê, Quản lý hệ thống, Quản lý tài khoản, Quản lý đơn hàng ...
-
-+ Phạm Tuấn Nghĩa: Thiết lập cơ sở dữ liệu, handle event, fix bug frontend
-
-- Cách chạy dự án: 
-
-1. Chạy dự án ở localhost:
+Chạy dự án ở localhost:
 + Cài đặt NodeJS và NPM cho client (thư mục magic_)
 	+ Mở 2 cửa sổ IDE, 1 IDE mở folder backend, 1 IDE mở folder frontend
 	+ Ở IDE mở folder backend, chạy lệnh "npm install" rồi "npm run start:dev" ở terminal
